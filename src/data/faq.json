@@ -1,0 +1,32 @@
+{
+  "faqs": [
+    {
+      "question": "Where do you service?",
+      "answer": "We serve Durham, Raleigh, Cary, Chapel Hill, Morrisville, Hillsborough, and the surrounding Triangle area. We come to your home, office, or preferred location."
+    },
+    {
+      "question": "Do I need to be home during the detail?",
+      "answer": "Not necessarily, but we do need access to your vehicle and ideally a water source for wash services. Just let us know the details when you book."
+    },
+    {
+      "question": "How long does each service take?",
+      "answer": "A Basic Mobile Wash takes about 30–45 minutes. Gold Details run about 1–2 hours. Diamond Details typically take 3–4 hours depending on vehicle size and condition."
+    },
+    {
+      "question": "What forms of payment do you accept?",
+      "answer": "We accept cash, check, Zelle, Cash App, and other common payment methods. A deposit is collected when you book, and the remaining balance is due at the time of service."
+    },
+    {
+      "question": "Where is window tint performed?",
+      "answer": "Window tint is done at a specific location we provide after your booking is confirmed. It's not a mobile service — but we make the process easy."
+    },
+    {
+      "question": "What if I need to cancel or reschedule?",
+      "answer": "Please give us at least 24 hours' notice. Deposits are non-refundable for cancellations with less than 24 hours' notice. Deposits from timely cancellations can be applied to a future booking."
+    },
+    {
+      "question": "Do you detail RVs, boats, or fleet vehicles?",
+      "answer": "Absolutely. These require a custom quote based on vehicle size and condition. Reach out through our booking form or give us a call and we'll get back to you within 24 hours."
+    }
+  ]
+}

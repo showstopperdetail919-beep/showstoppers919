@@ -1,0 +1,101 @@
+{
+  "services": [
+    {
+      "id": "basic-wash",
+      "name": "Basic Mobile Wash",
+      "price": "Starting at $45",
+      "priceValue": 45,
+      "depositAmount": 15,
+      "description": "A thorough hand wash and detail for drivers who want their vehicle looking clean and sharp without the wait at a car wash.",
+      "features": [
+        "Full exterior hand wash",
+        "Wheels cleaned and dressed",
+        "Tire shine applied",
+        "All windows cleaned inside and out",
+        "Hand dry to a streak-free finish"
+      ],
+      "note": "Larger SUVs and trucks may have a small upcharge.",
+      "duration": "30–45 min",
+      "isMobile": true
+    },
+    {
+      "id": "gold-detail",
+      "name": "Gold Detail",
+      "price": "$120",
+      "priceValue": 120,
+      "depositAmount": 40,
+      "description": "Our most popular package. Goes beyond the surface to give your interior and exterior the professional attention they deserve.",
+      "features": [
+        "Everything in the Basic Mobile Wash",
+        "Full interior vacuum",
+        "Dashboard and surface wipe down",
+        "Interior windows cleaned",
+        "Light interior detail and freshening"
+      ],
+      "popular": true,
+      "duration": "1–2 hours",
+      "isMobile": true
+    },
+    {
+      "id": "diamond-detail",
+      "name": "Diamond Detail",
+      "price": "$300",
+      "priceValue": 300,
+      "depositAmount": 100,
+      "description": "The full transformation. Our signature service restores paint clarity, seals in protection, and refreshes every inch of the interior.",
+      "features": [
+        "Everything in the Gold Detail",
+        "Clay bar paint decontamination",
+        "Premium hand wax and sealant application",
+        "Full interior restoration and deep clean"
+      ],
+      "duration": "3–4 hours",
+      "isMobile": true
+    },
+    {
+      "id": "window-tint",
+      "name": "Window Tint",
+      "price": "From $200",
+      "priceValue": 200,
+      "depositAmount": 75,
+      "description": "Professional window tint installed with precision. Reduce glare, block UV rays, and give your ride a sleek, finished look.",
+      "tiers": [
+        { "label": "Sedans", "price": "$200" },
+        { "label": "SUVs", "price": "$250" },
+        { "label": "Front Windshield", "price": "$100" }
+      ],
+      "note": "Tint is performed at a location we provide after booking confirmation.",
+      "isMobile": false
+    },
+    {
+      "id": "black-diamond",
+      "name": "Black Diamond Package",
+      "price": "$350",
+      "priceValue": 350,
+      "depositAmount": 125,
+      "description": "The ultimate combo. Full Gold Detail plus complete window tint in one booking — and save.",
+      "features": [
+        "Full Gold Detail (wash, interior, vacuum, wipe down, windows)",
+        "Full vehicle window tint"
+      ],
+      "duration": "Half day",
+      "isMobile": true
+    },
+    {
+      "id": "custom-quote",
+      "name": "Custom Quote",
+      "price": "Contact Us",
+      "priceValue": null,
+      "depositAmount": null,
+      "description": "RVs, boats, fleet vehicles, oversized trucks, and specialty jobs — priced based on size and condition.",
+      "features": [
+        "RVs and campers",
+        "Boats and watercraft",
+        "Fleet vehicles",
+        "Oversized trucks and specialty vehicles"
+      ],
+      "requiresApproval": true,
+      "isMobile": true
+    }
+  ]
+}

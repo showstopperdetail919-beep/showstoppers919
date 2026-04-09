@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --brand-black: #0A0A0A;
+  --brand-gold: #D4AF37;
+  --brand-gold-light: #E8C868;
+  --brand-gold-dark: #B8941F;
+  --brand-charcoal: #1A1A1A;
+  --brand-gray: #2A2A2A;
+  --brand-white: #FAFAFA;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--brand-black);
+  color: var(--brand-white);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #D4AF37, #E8C868);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #D4AF37, #B8941F);
+  color: #000000;
+  font-weight: 700;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-block;
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #E8C868, #D4AF37);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.35);
+}
+
+.card-dark {
+  background: #1A1A1A;
+  border: 1px solid #2A2A2A;
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.card-dark:hover {
+  border-color: #D4AF37;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
+}
+
+.section {
+  padding: 5rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 6rem 2rem;
+  }
+}

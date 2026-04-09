@@ -1,0 +1,47 @@
+{
+  "name": "Show Stopper Detailing",
+  "tagline": "Premium Mobile Detailing. At Your Door.",
+  "email": "showstopperdetail919@gmail.com",
+  "phone": "(919) 591-1435",
+  "phoneRaw": "9195911435",
+  "baseCity": "Durham, NC",
+  "serviceAreas": [
+    "Durham",
+    "Raleigh",
+    "Cary",
+    "Chapel Hill",
+    "Morrisville",
+    "Hillsborough",
+    "The Triangle"
+  ],
+  "paymentMethods": [
+    "Cash",
+    "Check",
+    "Zelle",
+    "Cash App"
+  ],
+  "socialLinks": {
+    "instagram": "",
+    "facebook": "",
+    "tiktok": "",
+    "google": ""
+  },
+  "policies": {
+    "deposit": "A deposit is required at booking and applied toward the total service balance. Custom quote services require approval before any deposit.",
+    "cancellation": "24+ hours notice: reschedule or cancel with no penalty. Less than 24 hours: deposit is non-refundable. No-shows: deposit forfeited.",
+    "cancellationHours": 24
+  },
+  "seo": {
+    "title": "Show Stopper Detailing | Premium Mobile Detailing in Durham, NC & the Triangle",
+    "description": "Professional mobile auto detailing in Durham, Raleigh, Cary, Chapel Hill & the Triangle. Hand car wash, full detail, window tint. We come to you. Book now.",
+    "keywords": [
+      "mobile detailing Durham NC",
+      "car detailing Raleigh NC",
+      "mobile car wash Triangle NC",
+      "window tint Durham",
+      "auto detailing near me",
+      "hand car wash Cary NC",
+      "best car detailing Durham"
+    ]
+  }
+}
