@@ -8,9 +8,9 @@ import Logo from '@/components/Logo';
 const navLinks = [
   { label: 'Services', href: '#services' },
   { label: 'Pricing', href: '#pricing' },
-  { label: 'Gallery', href: '#gallery' },
   { label: 'Reviews', href: '#reviews' },
   { label: 'FAQ', href: '#faq' },
+  { label: 'Book Now', href: '#booking' },
 ];
 
 export default function Navbar() {
