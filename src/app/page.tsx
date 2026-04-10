@@ -2,6 +2,9 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Services from '@/components/Services';
 import Pricing from '@/components/Pricing';
+import HowItWorks from '@/components/HowItWorks';
+import ServiceArea from '@/components/ServiceArea';
+import Gallery from '@/components/Gallery';
 import Testimonials from '@/components/Testimonials';
 import FAQ from '@/components/FAQ';
 import BookingSection from '@/components/BookingSection';
@@ -16,6 +19,9 @@ export default function HomePage() {
         <Hero />
         <Services />
         <Pricing />
+        <HowItWorks />
+        <ServiceArea />
+        <Gallery />
         <Testimonials />
         <FAQ />
         <BookingSection />

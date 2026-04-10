@@ -1,20 +1,26 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Calendar } from 'lucide-react';
+import { Phone, Calendar } from 'lucide-react';
+import business from '@/data/business.json';
 
 export default function StickyCTA() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setVisible(window.scrollY > 300);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setVisible(window.scrollY > 300);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  const scrollToBooking = () => {
-    document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   return (
     <div
@@ -22,14 +28,28 @@ export default function StickyCTA() {
         visible ? 'translate-y-0' : 'translate-y-full'
       }`}
     >
-      <div className="bg-black border-t border-[#D4AF37]/30 p-4 shadow-2xl">
-        <button
-          onClick={scrollToBooking}
-          className="w-full flex items-center justify-center gap-2 bg-[#D4AF37] hover:bg-[#B8941F] text-black font-heading font-bold text-base uppercase tracking-wide py-4 rounded-lg transition-colors duration-200"
-        >
-          <Calendar className="w-5 h-5" />
-          Book Appointment
-        </button>
+      <div className="bg-black/95 backdrop-blur-md border-t border-white/10 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        <div className="flex gap-3 max-w-lg mx-auto">
+          {/* Call Now */}
+          <a
+            href={`tel:${business.phoneRaw}`}
+            className="flex-1 flex items-center justify-center gap-2 bg-white/10 border border-white/20 text-white font-heading font-bold text-sm uppercase tracking-wider rounded-lg py-3 hover:bg-white/15 transition-colors"
+          >
+            <Phone size={16} />
+            Call Now
+          </a>
+
+          {/* Book Now */}
+          <button
+            onClick={() =>
+              document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })
+            }
+            className="flex-1 flex items-center justify-center gap-2 btn-gold py-3 text-sm"
+          >
+            <Calendar size={16} />
+            Book Now
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -2,105 +2,90 @@
 
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import business from '@/data/business.json';
 
 const faqs = [
   {
-    question: 'What areas do you service?',
-    answer:
-      'We provide mobile detailing services throughout Durham, Chapel Hill, Raleigh, Cary, Morrisville, Hillsborough, and the entire Triangle area. If you\'re unsure if we serve your location, just give us a call!',
+    q: 'Do you come to my location?',
+    a: 'Yes! All detailing and wash services are performed at your location — home, office, or wherever is convenient. Window tint is the only exception; we provide a location after booking confirmation.',
   },
   {
-    question: 'How long does each service take?',
-    answer:
-      'A Basic Mobile Wash takes about 30–45 minutes. Gold Details run about 1–2 hours. Diamond Details typically take 3–4 hours depending on vehicle size and condition. We\'ll give you an accurate estimate when you book.',
+    q: 'Is a deposit required?',
+    a: 'Yes, a deposit is required to secure your booking. The deposit is applied toward the total service balance — it is not an extra charge. Deposit amounts vary by service.',
   },
   {
-    question: 'Do I need to provide water or electricity?',
-    answer:
-      'For most services, access to a water source at your location is helpful. We bring all supplies, tools, and equipment. Just let us know your setup when booking and we\'ll plan accordingly.',
+    q: 'How long does a detail take?',
+    a: 'It depends on the service: Basic Wash takes 30–45 minutes, Gold Detail 1–2 hours, Diamond Detail 3–4 hours, and Black Diamond is a half-day commitment. Times may vary based on vehicle size and condition.',
   },
   {
-    question: 'What if it rains on my appointment day?',
-    answer:
-      'We can work in light rain for interior services, but for exterior detailing we\'ll reschedule at no charge if weather conditions aren\'t ideal. Your deposit carries over to the new appointment.',
+    q: 'What areas do you service?',
+    a: 'We serve the entire Triangle region including Durham, Raleigh, Cary, Chapel Hill, Morrisville, Apex, Wake Forest, Garner, Holly Springs, Fuquay-Varina, Hillsborough, and Pittsboro.',
   },
   {
-    question: 'Where is window tinting performed?',
-    answer:
-      'Window tint is done at a specific location we provide after your booking is confirmed. It\'s not a mobile service — but we make the process easy and straightforward.',
+    q: 'Do you detail RVs, boats, or fleet vehicles?',
+    a: 'Absolutely. RVs, boats, fleet vehicles, and oversized trucks are priced with a custom quote based on size and condition. Contact us for details.',
   },
   {
-    question: 'What forms of payment do you accept?',
-    answer:
-      'We accept cash, check, Zelle, and Cash App. A deposit is collected when you book, and the remaining balance is due at the time of service.',
+    q: 'What products do you use?',
+    a: 'We use professional-grade, paint-safe products including ceramic spray sealants, pH-balanced soaps, and premium interior cleaners. All products are hand-applied with care.',
   },
   {
-    question: 'What if I need to cancel or reschedule?',
-    answer:
-      'Please give us at least 24 hours\' notice. Deposits are non-refundable for cancellations with less than 24 hours\' notice. Deposits from timely cancellations can be applied to a future booking.',
-  },
-  {
-    question: 'Do you detail RVs, boats, or fleet vehicles?',
-    answer:
-      'Absolutely. These require a custom quote based on vehicle size and condition. Reach out through our booking form or give us a call and we\'ll get back to you within 24 hours.',
+    q: 'What if it rains on my appointment day?',
+    a: 'We monitor the weather closely. If rain is expected, we\'ll reach out to reschedule at no cost. Your deposit remains valid for the rescheduled date.',
   },
 ];
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
+  const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i);
+
   return (
-    <section id="faq" className="py-20 lg:py-28 bg-white px-4">
-      <div className="max-w-3xl mx-auto">
+    <section id="faq" className="section-light">
+      <div className="section-inner max-w-3xl">
         {/* Header */}
         <div className="text-center mb-14">
-          <div className="inline-block px-4 py-1 bg-[#D4AF37]/10 rounded-full mb-4">
-            <span className="text-sm font-body tracking-wide text-[#B8941F] uppercase">FAQ</span>
-          </div>
-          <h2 className="font-heading font-extrabold text-3xl lg:text-5xl text-gray-900 mb-4">
+          <span className="section-badge section-badge-dark">Help</span>
+          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-brand-black">
             Frequently Asked Questions
           </h2>
-          <p className="font-body text-lg text-gray-600">
-            Everything you need to know about our mobile detailing service
-          </p>
         </div>
 
         {/* Accordion */}
         <div className="space-y-3">
-          {faqs.map((faq, idx) => {
-            const isOpen = openIndex === idx;
+          {faqs.map((faq, i) => {
+            const isOpen = openIndex === i;
             return (
               <div
-                key={idx}
-                className={`rounded-xl border px-6 bg-white transition-all duration-200 ${
-                  isOpen ? 'border-[#D4AF37]/60 shadow-sm' : 'border-gray-200 hover:border-gray-300'
+                key={i}
+                className={`rounded-xl border px-6 transition-all ${
+                  isOpen
+                    ? 'border-brand-gold/50 shadow-sm bg-brand-gold/5'
+                    : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
                 <button
-                  className="w-full flex items-center justify-between py-5 text-left gap-4"
-                  onClick={() => setOpenIndex(isOpen ? null : idx)}
+                  onClick={() => toggle(i)}
+                  className="w-full flex items-center justify-between py-5 text-left"
                   aria-expanded={isOpen}
                 >
                   <span
-                    className={`font-heading font-semibold text-base leading-snug transition-colors ${
-                      isOpen ? 'text-[#B8941F]' : 'text-gray-900'
+                    className={`font-heading font-semibold text-base pr-4 ${
+                      isOpen ? 'text-brand-gold-dark' : 'text-brand-black'
                     }`}
                   >
-                    {faq.question}
+                    {faq.q}
                   </span>
                   <ChevronDown
-                    size={20}
-                    className={`flex-shrink-0 text-[#D4AF37] transition-transform duration-300 ${
+                    size={18}
+                    className={`shrink-0 text-gray-400 transition-transform duration-200 ${
                       isOpen ? 'rotate-180' : ''
                     }`}
                   />
                 </button>
-
                 {isOpen && (
-                  <div className="pb-5 border-t border-gray-100">
-                    <p className="font-body text-sm text-gray-600 leading-relaxed pt-4">
-                      {faq.answer}
-                    </p>
+                  <div className="pb-5 text-sm text-gray-600 font-body leading-relaxed -mt-1">
+                    {faq.a}
                   </div>
                 )}
               </div>
@@ -108,15 +93,16 @@ export default function FAQ() {
           })}
         </div>
 
-        <div className="text-center mt-12">
-          <p className="font-body text-sm text-gray-500 mb-3">Still have questions?</p>
+        {/* Footer CTA */}
+        <p className="text-center text-gray-500 text-sm font-body mt-10">
+          Still have questions?{' '}
           <a
-            href="tel:9195911435"
-            className="inline-flex items-center gap-2 font-heading font-semibold text-[#B8941F] hover:text-[#D4AF37] transition-colors"
+            href={`tel:${business.phoneRaw}`}
+            className="text-brand-gold-dark font-semibold hover:underline"
           >
-            Call us at (919) 591-1435
+            Call us at {business.phone}
           </a>
-        </div>
+        </p>
       </div>
     </section>
   );

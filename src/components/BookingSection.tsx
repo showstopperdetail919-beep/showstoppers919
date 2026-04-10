@@ -1,19 +1,26 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-import { CheckCircle, AlertCircle, Phone, MapPin, Clock } from 'lucide-react';
+import { CheckCircle, AlertCircle, Phone, Mail, MapPin } from 'lucide-react';
 import servicesData from '@/data/services.json';
 import business from '@/data/business.json';
 
-type FormState = 'idle' | 'submitting' | 'success' | 'error';
-
 export default function BookingSection() {
-  const [formState, setFormState] = useState<FormState>('idle');
+  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [form, setForm] = useState({
-    name: '', phone: '', service: '', date: '',
+    name: '',
+    phone: '',
+    email: '',
+    vehicle: '',
+    service: '',
+    date: '',
+    address: '',
+    message: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -26,146 +33,258 @@ export default function BookingSection() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-      setFormState(res.ok ? 'success' : 'error');
-      if (res.ok) setForm({ name: '', phone: '', service: '', date: '' });
+      if (res.ok) {
+        setFormState('success');
+        setForm({ name: '', phone: '', email: '', vehicle: '', service: '', date: '', address: '', message: '' });
+      } else {
+        setFormState('error');
+      }
     } catch {
       setFormState('error');
     }
   };
 
-  return (
-    <section id="booking" className="py-20 bg-black text-white px-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-block px-4 py-1 bg-[#D4AF37]/20 rounded-full mb-4">
-            <span className="text-sm font-body tracking-wide text-[#D4AF37] uppercase">Book Now</span>
-          </div>
-          <h2 className="font-heading font-extrabold text-3xl lg:text-4xl text-white mb-3">
-            Ready to Book?
+  const today = new Date().toISOString().split('T')[0];
+
+  if (formState === 'success') {
+    return (
+      <section id="booking" className="section-dark">
+        <div className="section-inner text-center max-w-lg mx-auto">
+          <CheckCircle size={48} className="text-brand-gold mx-auto mb-4" />
+          <h2 className="font-heading font-bold text-2xl text-white mb-3">
+            Booking Request Received!
           </h2>
-          <p className="font-body text-gray-400">
-            Fill out the form and we&apos;ll reach out within 24 hours to confirm.
+          <p className="text-white/60 font-body mb-6">
+            We&apos;ll call or text within 24 hours to confirm your appointment and
+            collect the deposit.
+          </p>
+          <button
+            onClick={() => setFormState('idle')}
+            className="btn-outline-gold px-6 py-3"
+          >
+            Submit Another Request
+          </button>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section id="booking" className="section-dark">
+      <div className="section-inner">
+        {/* Header */}
+        <div className="text-center mb-14">
+          <span className="section-badge section-badge-gold">Get Started</span>
+          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white">
+            Book Your Detail
+          </h2>
+          <p className="text-white/50 font-body mt-3 max-w-lg mx-auto">
+            Fill out the form to request a booking. A deposit is required to
+            confirm your appointment. We&apos;ll reach out to confirm.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Contact info */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 max-w-5xl mx-auto">
+          {/* Left — Contact Info */}
           <div className="lg:col-span-2 space-y-4">
             <a
               href={`tel:${business.phoneRaw}`}
-              className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-5 hover:border-[#D4AF37]/40 transition-colors"
+              className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-5 hover:border-brand-gold/40 transition-colors"
             >
-              <div className="p-3 bg-[#D4AF37] rounded-lg flex-shrink-0">
-                <Phone className="w-5 h-5 text-black" />
-              </div>
+              <Phone size={20} className="text-brand-gold shrink-0" />
               <div>
-                <p className="font-heading font-semibold text-white text-sm">Call or Text</p>
-                <p className="font-body text-[#D4AF37] text-sm">{business.phone}</p>
+                <p className="text-xs text-white/40 font-body">Call Us</p>
+                <p className="text-white font-body font-semibold">{business.phone}</p>
+              </div>
+            </a>
+
+            <a
+              href={`mailto:${business.email}`}
+              className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-5 hover:border-brand-gold/40 transition-colors"
+            >
+              <Mail size={20} className="text-brand-gold shrink-0" />
+              <div>
+                <p className="text-xs text-white/40 font-body">Email</p>
+                <p className="text-white font-body font-semibold text-sm">{business.email}</p>
               </div>
             </a>
 
             <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-5">
-              <div className="p-3 bg-[#D4AF37] rounded-lg flex-shrink-0">
-                <MapPin className="w-5 h-5 text-black" />
-              </div>
+              <MapPin size={20} className="text-brand-gold shrink-0" />
               <div>
-                <p className="font-heading font-semibold text-white text-sm">Service Area</p>
-                <p className="font-body text-gray-400 text-sm">{business.serviceAreas.slice(0, 3).join(', ')} & more</p>
+                <p className="text-xs text-white/40 font-body">Based In</p>
+                <p className="text-white font-body font-semibold">
+                  {business.baseCity} &middot; Triangle Region
+                </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-5">
-              <div className="p-3 bg-[#D4AF37] rounded-lg flex-shrink-0">
-                <Clock className="w-5 h-5 text-black" />
-              </div>
-              <div>
-                <p className="font-heading font-semibold text-white text-sm">Hours</p>
-                <p className="font-body text-gray-400 text-sm">Mon – Sat · 8am – 7pm</p>
-              </div>
-            </div>
-
-            <div className="bg-[#D4AF37]/10 border border-[#D4AF37]/30 rounded-xl p-5">
-              <p className="font-body text-xs text-gray-400 mb-1">Deposit required at booking</p>
-              <p className="font-body text-sm text-[#D4AF37]">Applied toward your total — not an extra charge.</p>
+            {/* Deposit info */}
+            <div className="bg-brand-gold/10 border border-brand-gold/20 rounded-xl p-5 mt-2">
+              <p className="text-brand-gold text-sm font-heading font-semibold mb-1">
+                Deposit Info
+              </p>
+              <p className="text-white/60 text-xs font-body leading-relaxed">
+                A deposit is required to secure your booking and is applied toward
+                the total service balance. We&apos;ll provide payment details upon
+                confirmation.
+              </p>
             </div>
           </div>
 
-          {/* Form */}
-          <div className="lg:col-span-3 bg-white/5 border border-white/10 rounded-xl p-8">
-            {formState === 'success' ? (
-              <div className="text-center py-10">
-                <CheckCircle size={52} className="text-[#D4AF37] mx-auto mb-5" />
-                <h3 className="font-heading font-bold text-2xl text-white mb-3">Request Received!</h3>
-                <p className="font-body text-gray-400 text-sm max-w-xs mx-auto">
-                  We&apos;ll reach out within 24 hours to confirm your appointment.
+          {/* Right — Form */}
+          <div className="lg:col-span-3">
+            {formState === 'error' && (
+              <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6">
+                <AlertCircle size={18} className="text-red-400 shrink-0" />
+                <p className="text-red-300 text-sm font-body">
+                  Something went wrong. Please try again or call us directly at{' '}
+                  {business.phone}.
                 </p>
-                <button onClick={() => setFormState('idle')} className="mt-8 btn-gold text-sm px-6 py-3">
-                  Book Another
-                </button>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {formState === 'error' && (
-                  <div className="flex items-center gap-3 bg-red-900/20 border border-red-800/50 rounded-lg px-4 py-3">
-                    <AlertCircle size={16} className="text-red-400 flex-shrink-0" />
-                    <p className="text-xs font-body text-red-300">Something went wrong. Call us directly at {business.phone}.</p>
-                  </div>
-                )}
+            )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-xs font-body font-medium text-white/60 mb-1.5 uppercase tracking-wide">Full Name *</label>
-                    <input
-                      type="text" name="name" value={form.name}
-                      onChange={handleChange} required placeholder="John Smith"
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-sm font-body text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/30 transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-body font-medium text-white/60 mb-1.5 uppercase tracking-wide">Phone *</label>
-                    <input
-                      type="tel" name="phone" value={form.phone}
-                      onChange={handleChange} required placeholder="(919) 000-0000"
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-sm font-body text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/30 transition-colors"
-                    />
-                  </div>
-                </div>
-
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-body font-medium text-white/60 mb-1.5 uppercase tracking-wide">Service *</label>
+                  <label className="block text-xs text-white/50 font-body mb-1.5">
+                    Name <span className="text-brand-gold">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="Your full name"
+                    className="w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-body placeholder:text-white/30 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold/30 outline-none transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-white/50 font-body mb-1.5">
+                    Phone <span className="text-brand-gold">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    required
+                    value={form.phone}
+                    onChange={handleChange}
+                    placeholder="(555) 123-4567"
+                    className="w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-body placeholder:text-white/30 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold/30 outline-none transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs text-white/50 font-body mb-1.5">
+                    Email <span className="text-brand-gold">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="your@email.com"
+                    className="w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-body placeholder:text-white/30 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold/30 outline-none transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-white/50 font-body mb-1.5">
+                    Vehicle (Year / Make / Model) <span className="text-brand-gold">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="vehicle"
+                    required
+                    value={form.vehicle}
+                    onChange={handleChange}
+                    placeholder="2024 BMW M4"
+                    className="w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-body placeholder:text-white/30 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold/30 outline-none transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs text-white/50 font-body mb-1.5">
+                    Service <span className="text-brand-gold">*</span>
+                  </label>
                   <select
-                    name="service" value={form.service} onChange={handleChange} required
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-sm font-body text-white focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/30 transition-colors appearance-none"
+                    name="service"
+                    required
+                    value={form.service}
+                    onChange={handleChange}
+                    className="w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-body focus:border-brand-gold focus:ring-1 focus:ring-brand-gold/30 outline-none transition-colors appearance-none"
                   >
-                    <option value="" className="bg-gray-900">Select a service...</option>
-                    {servicesData.services.map((s) => (
-                      <option key={s.id} value={s.id} className="bg-gray-900">{s.name} — {s.price}</option>
+                    <option value="" className="bg-brand-black">
+                      Select service
+                    </option>
+                    {servicesData.services.map((s: any) => (
+                      <option key={s.id} value={s.id} className="bg-brand-black">
+                        {s.name}
+                      </option>
                     ))}
                   </select>
                 </div>
-
                 <div>
-                  <label className="block text-xs font-body font-medium text-white/60 mb-1.5 uppercase tracking-wide">Preferred Date *</label>
+                  <label className="block text-xs text-white/50 font-body mb-1.5">
+                    Preferred Date
+                  </label>
                   <input
-                    type="date" name="date" value={form.date}
-                    onChange={handleChange} required min={new Date().toISOString().split('T')[0]}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-sm font-body text-white focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/30 transition-colors"
+                    type="date"
+                    name="date"
+                    value={form.date}
+                    onChange={handleChange}
+                    min={today}
+                    className="w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-body focus:border-brand-gold focus:ring-1 focus:ring-brand-gold/30 outline-none transition-colors"
                   />
                 </div>
+              </div>
 
-                <button
-                  type="submit" disabled={formState === 'submitting'}
-                  className="w-full bg-[#D4AF37] hover:bg-[#B8941F] text-black font-heading font-bold text-base uppercase tracking-wide py-4 rounded-lg transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  {formState === 'submitting' ? 'Sending...' : 'Request Appointment'}
-                </button>
+              <div>
+                <label className="block text-xs text-white/50 font-body mb-1.5">
+                  Address or ZIP
+                </label>
+                <input
+                  type="text"
+                  name="address"
+                  value={form.address}
+                  onChange={handleChange}
+                  placeholder="Service location or ZIP code"
+                  className="w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-body placeholder:text-white/30 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold/30 outline-none transition-colors"
+                />
+              </div>
 
-                <p className="text-gray-500 text-xs text-center font-body">
-                  We&apos;ll call or text to confirm within 24 hours.
-                </p>
-              </form>
-            )}
+              <div>
+                <label className="block text-xs text-white/50 font-body mb-1.5">
+                  Message
+                </label>
+                <textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  rows={3}
+                  placeholder="Any special requests or vehicle details..."
+                  className="w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-body placeholder:text-white/30 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold/30 outline-none transition-colors resize-none"
+                />
+              </div>
+
+              <p className="text-xs text-white/30 font-body">
+                A deposit is required to secure your booking. We&apos;ll provide
+                payment details upon confirmation.
+              </p>
+
+              <button
+                type="submit"
+                disabled={formState === 'submitting'}
+                className="btn-gold w-full py-4 text-base disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {formState === 'submitting' ? 'Submitting...' : 'Submit Booking Request'}
+              </button>
+            </form>
           </div>
         </div>
       </div>

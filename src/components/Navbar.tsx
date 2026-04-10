@@ -1,16 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
 import business from '@/data/business.json';
-import Logo from '@/components/Logo';
 
 const navLinks = [
   { label: 'Services', href: '#services' },
   { label: 'Pricing', href: '#pricing' },
+  { label: 'Gallery', href: '#gallery' },
   { label: 'Reviews', href: '#reviews' },
   { label: 'FAQ', href: '#faq' },
-  { label: 'Book Now', href: '#booking' },
+  { label: 'Contact', href: '#booking' },
 ];
 
 export default function Navbar() {
@@ -18,112 +18,115 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
+  const scrollToSection = useCallback((href: string) => {
     setMenuOpen(false);
-    if (href === '#') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    const id = href.replace('#', '');
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
     } else {
-      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  };
+  }, []);
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-black/95 backdrop-blur-md shadow-lg shadow-black/50 border-b border-white/10'
-          : 'bg-black/95 border-b border-white/10'
+          ? 'bg-black/95 backdrop-blur-md shadow-lg shadow-black/20'
+          : 'bg-black/80 backdrop-blur-sm'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo — place logo.png in /public/ */}
-          <button
-            onClick={() => scrollToSection('#')}
-            className="hover:opacity-85 transition-opacity flex-shrink-0"
-            aria-label="Show Stopper Detailing — Home"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/logo.PNG"
-              alt="Show Stopper Detailing"
-              className="h-12 w-auto object-contain"
-              style={{ maxWidth: '220px' }}
-            />
-          </button>
+      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-16 lg:h-18">
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="flex items-center gap-2"
+        >
+          <img
+            src="/images/logo.PNG"
+            alt="Show Stopper Detailing"
+            className="h-10 w-auto object-contain"
+          />
+        </button>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-7">
-            {navLinks.map((link) => (
-              <button
-                key={link.href}
-                onClick={() => scrollToSection(link.href)}
-                className="text-sm font-body font-medium text-[#FAFAFA]/80 hover:text-[#D4AF37] transition-colors duration-200 tracking-wide"
-              >
-                {link.label}
-              </button>
-            ))}
-          </nav>
-
-          {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-5">
-            <a
-              href={`tel:${business.phoneRaw}`}
-              className="flex items-center gap-1.5 text-[#FAFAFA]/70 hover:text-[#D4AF37] transition-colors"
-            >
-              <Phone size={14} />
-              <span className="font-body font-medium text-sm">{business.phone}</span>
-            </a>
+        <nav className="hidden lg:flex items-center gap-8">
+          {navLinks.map((link) => (
             <button
-              onClick={() => scrollToSection('#booking')}
-              className="btn-gold text-xs px-5 py-2.5"
+              key={link.href}
+              onClick={() => scrollToSection(link.href)}
+              className="text-sm font-body text-white/70 hover:text-brand-gold transition-colors"
             >
-              Book Now
+              {link.label}
             </button>
-          </div>
+          ))}
+        </nav>
 
-          {/* Hamburger */}
-          <button
-            className="lg:hidden text-[#FAFAFA] p-1"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
+        <div className="hidden lg:flex items-center gap-4">
+          <a
+            href={`tel:${business.phoneRaw}`}
+            className="flex items-center gap-2 text-sm text-white/70 hover:text-brand-gold transition-colors font-body"
           >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            <Phone size={14} />
+            {business.phone}
+          </a>
+          <button
+            onClick={() => scrollToSection('#booking')}
+            className="btn-gold text-xs px-5 py-2.5"
+          >
+            Book Now
           </button>
         </div>
+
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="lg:hidden text-white p-2"
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
 
-      {/* Mobile Menu */}
       {menuOpen && (
-        <div className="lg:hidden bg-black/98 border-t border-white/10">
-          <nav className="flex flex-col px-4 py-4 gap-1">
+        <div className="lg:hidden bg-black/95 backdrop-blur-md border-t border-white/10">
+          <nav className="flex flex-col px-6 py-4 gap-1">
             {navLinks.map((link) => (
               <button
                 key={link.href}
                 onClick={() => scrollToSection(link.href)}
-                className="text-base font-body font-medium text-[#FAFAFA]/80 hover:text-[#D4AF37] transition-colors py-3 border-b border-white/5 text-left"
+                className="text-left py-3 text-white/80 hover:text-brand-gold transition-colors font-body text-base border-b border-white/5 last:border-0"
               >
                 {link.label}
               </button>
             ))}
-            <a
-              href={`tel:${business.phoneRaw}`}
-              className="flex items-center gap-2 text-[#FAFAFA]/70 hover:text-[#D4AF37] transition-colors py-3 border-b border-white/5"
-            >
-              <Phone size={14} />
-              <span className="font-body font-medium text-sm">{business.phone}</span>
-            </a>
-            <button
-              onClick={() => scrollToSection('#booking')}
-              className="btn-gold text-center text-sm mt-3 w-full"
-            >
-              Book Now
-            </button>
+            <div className="flex flex-col gap-3 pt-4">
+              <a
+                href={`tel:${business.phoneRaw}`}
+                className="flex items-center justify-center gap-2 text-brand-gold font-body font-semibold"
+              >
+                <Phone size={16} />
+                {business.phone}
+              </a>
+              <button
+                onClick={() => scrollToSection('#booking')}
+                className="btn-gold w-full py-3"
+              >
+                Book Now
+              </button>
+            </div>
           </nav>
         </div>
       )}

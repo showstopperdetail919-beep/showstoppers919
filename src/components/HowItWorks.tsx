@@ -3,85 +3,74 @@ import { Calendar, MapPin, Sparkles, Star } from 'lucide-react';
 const steps = [
   {
     icon: Calendar,
-    number: '01',
     title: 'Book Online',
-    description: 'Choose your service and select a convenient date and time. Instant confirmation — we make it easy.',
+    description:
+      'Choose your service, pick a date, and submit your booking. A deposit secures your spot.',
   },
   {
     icon: MapPin,
-    number: '02',
     title: 'We Come to You',
-    description: 'Our professional team arrives at your location with all equipment and supplies. No drop-off needed.',
+    description:
+      'Mobile services are performed at your location. Window tint location provided after confirmation.',
   },
   {
     icon: Sparkles,
-    number: '03',
-    title: 'Expert Service',
-    description: 'We transform your vehicle using premium products and meticulous attention to detail — by hand, every time.',
+    title: 'We Detail',
+    description:
+      'Our professionals transform your vehicle with premium products and meticulous attention to detail.',
   },
   {
     icon: Star,
-    number: '04',
-    title: 'Enjoy the Results',
-    description: 'Drive away in a stunning vehicle that looks and feels like new. Pay the remaining balance when done.',
+    title: 'You Enjoy',
+    description:
+      'Drive away in a vehicle that looks and feels brand new. Show-stopping results guaranteed.',
   },
 ];
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-20 lg:py-28 bg-black text-white px-4">
-      <div className="max-w-6xl mx-auto">
+    <section id="how-it-works" className="section-light">
+      <div className="section-inner">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14 lg:mb-20">
-          <div className="inline-block px-4 py-1 bg-[#D4AF37]/20 rounded-full mb-4">
-            <span className="text-sm font-body tracking-wide text-[#D4AF37] uppercase">Process</span>
-          </div>
-          <h2 className="font-heading font-extrabold text-3xl lg:text-5xl text-white mb-4">
+        <div className="text-center mb-14">
+          <span className="section-badge section-badge-dark">Process</span>
+          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-brand-black">
             How It Works
           </h2>
-          <p className="font-body text-lg text-gray-400">
-            Four simple steps to a stunning vehicle
-          </p>
         </div>
 
-        {/* Steps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6">
-          {steps.map((step, index) => {
-            const Icon = step.icon;
-            return (
-              <div key={index} className="relative">
-                {/* Connector line desktop */}
-                {index < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-10 left-[65%] w-[70%] h-px bg-[#D4AF37]/30" />
-                )}
+        {/* Steps */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+          {steps.map((step, i) => (
+            <div key={step.title} className="relative text-center">
+              {/* Connector line (desktop only) */}
+              {i < steps.length - 1 && (
+                <div className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-px bg-brand-gold/20" />
+              )}
 
-                <div className="relative z-10">
-                  {/* Icon circle */}
-                  <div className="w-20 h-20 bg-[#D4AF37] rounded-full flex items-center justify-center mb-5 mx-auto lg:mx-0 shadow-lg shadow-[#D4AF37]/20">
-                    <Icon className="w-9 h-9 text-black" />
-                  </div>
-
-                  {/* Step number */}
-                  <div className="font-heading font-extrabold text-6xl text-[#D4AF37]/20 mb-2 text-center lg:text-left leading-none">
-                    {step.number}
-                  </div>
-
-                  {/* Content */}
-                  <h3 className="font-heading font-bold text-xl text-white mb-2 text-center lg:text-left">
-                    {step.title}
-                  </h3>
-                  <p className="font-body text-gray-400 text-sm leading-relaxed text-center lg:text-left">
-                    {step.description}
-                  </p>
-                </div>
+              {/* Icon circle */}
+              <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-brand-gold flex items-center justify-center shadow-lg shadow-brand-gold/20">
+                <step.icon size={32} className="text-black" />
               </div>
-            );
-          })}
+
+              {/* Step number */}
+              <span className="font-heading font-extrabold text-5xl text-brand-gold/10 absolute top-0 right-4 lg:right-0 select-none">
+                {i + 1}
+              </span>
+
+              <h3 className="font-heading font-bold text-lg text-brand-black mb-2">
+                {step.title}
+              </h3>
+              <p className="text-sm text-gray-600 font-body leading-relaxed max-w-xs mx-auto">
+                {step.description}
+              </p>
+            </div>
+          ))}
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-16">
-          <a href="#booking" className="btn-gold text-sm px-10 py-4">
+        <div className="text-center mt-12">
+          <a href="#booking" className="btn-gold px-8 py-4 text-base">
             Book Your Detail
           </a>
         </div>

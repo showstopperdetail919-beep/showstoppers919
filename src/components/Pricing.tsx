@@ -1,136 +1,141 @@
 import { Check } from 'lucide-react';
+import servicesData from '@/data/services.json';
 
-const pricingPlans = [
+const pricingTiers = [
   {
-    name: 'Basic Mobile Wash',
+    id: 'basic-wash',
+    name: 'Basic Wash',
     price: '$45',
-    priceSuffix: 'starting',
-    description: 'Perfect for regular maintenance',
-    deposit: '$15',
+    suffix: '& up',
     features: [
-      'Full exterior hand wash',
-      'Wheels cleaned & dressed',
-      'Tire shine applied',
-      'All windows cleaned inside & out',
-      'Hand dry — streak-free finish',
+      'Exterior hand wash',
+      'Tire & rim cleaning',
+      'Tire shine',
+      'Window cleaning',
+      'Door jamb wipe',
     ],
     popular: false,
-    cta: 'Book This Service',
   },
   {
+    id: 'gold-detail',
     name: 'Gold Detail',
     price: '$120',
-    priceSuffix: 'flat rate',
-    description: 'Our most popular package',
-    deposit: '$40',
+    suffix: '& up',
     features: [
-      'Everything in the Basic Wash',
+      'Everything in Basic',
       'Full interior vacuum',
-      'Dashboard & surface wipe down',
+      'Dashboard & console wipe',
       'Interior windows cleaned',
-      'Light interior detail & freshening',
+      'Light interior detail',
+      'Air freshener',
     ],
     popular: true,
-    cta: 'Book This Service',
   },
   {
+    id: 'diamond-detail',
     name: 'Diamond Detail',
     price: '$300',
-    priceSuffix: 'flat rate',
-    description: 'The ultimate transformation',
-    deposit: '$100',
+    suffix: '& up',
     features: [
-      'Everything in the Gold Detail',
-      'Clay bar paint decontamination',
+      'Everything in Gold',
+      'Clay bar decontamination',
       'Premium hand wax & sealant',
-      'Full interior restoration',
-      'Deep clean — every inch',
+      'Deep interior restoration',
+      'Leather conditioning',
+      'Headlight restoration',
     ],
     popular: false,
-    cta: 'Book This Service',
+  },
+  {
+    id: 'black-diamond',
+    name: 'Black Diamond',
+    price: '$350',
+    suffix: '& up',
+    features: [
+      'Full Gold Detail included',
+      'Complete vehicle window tint',
+      'Interior + exterior detail',
+      'Full protection package',
+      'Best value combo',
+    ],
+    popular: false,
   },
 ];
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="py-20 lg:py-28 bg-gray-50 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section id="pricing" className="section-dark">
+      <div className="section-inner">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-block px-4 py-1 bg-[#D4AF37]/10 rounded-full mb-4">
-            <span className="text-sm font-body tracking-wide text-[#B8941F] uppercase">Pricing</span>
-          </div>
-          <h2 className="font-heading font-extrabold text-3xl lg:text-5xl text-gray-900 mb-4">
-            Transparent Pricing.
+        <div className="text-center mb-14">
+          <span className="section-badge section-badge-gold">Investment</span>
+          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white">
+            Pricing Packages
           </h2>
-          <p className="font-body text-lg text-gray-600">
-            Premium services at upfront rates. A small deposit secures your booking — the rest is due when we finish.
+          <p className="text-white/50 font-body mt-3 max-w-lg mx-auto">
+            Prices vary by vehicle size. A deposit is required to secure your booking.
           </p>
         </div>
 
-        {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-          {pricingPlans.map((plan) => (
+        {/* Pricing Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {pricingTiers.map((tier) => (
             <div
-              key={plan.name}
-              className={`relative rounded-2xl p-8 flex flex-col transition-all duration-300 ${
-                plan.popular
-                  ? 'border-2 border-[#D4AF37] shadow-2xl shadow-[#D4AF37]/10 bg-white md:scale-105'
-                  : 'border border-gray-200 bg-white hover:shadow-lg'
+              key={tier.id}
+              className={`relative rounded-2xl p-6 flex flex-col transition-all duration-300 ${
+                tier.popular
+                  ? 'bg-brand-charcoal border-2 border-brand-gold shadow-xl shadow-brand-gold/10 md:scale-105'
+                  : 'bg-brand-charcoal border border-brand-gray hover:border-white/20'
               }`}
             >
-              {/* Popular badge */}
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#D4AF37] text-black text-xs font-heading font-bold rounded-full uppercase tracking-wider whitespace-nowrap">
+              {tier.popular && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-gold text-black text-xs font-heading font-bold px-4 py-1 rounded-full">
                   Most Popular
-                </div>
+                </span>
               )}
 
-              {/* Plan header */}
-              <div className="text-center mb-6">
-                <h3 className="font-heading font-bold text-2xl text-gray-900 mb-2">{plan.name}</h3>
-                <p className="font-body text-gray-500 text-sm mb-4">{plan.description}</p>
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="font-heading font-extrabold text-5xl text-gray-900">{plan.price}</span>
-                  <span className="font-body text-gray-500 text-sm">{plan.priceSuffix}</span>
-                </div>
-                <p className="text-xs font-body text-[#B8941F] mt-2">${plan.deposit} deposit to book</p>
+              <h3 className="font-heading font-bold text-lg text-white mb-2">
+                {tier.name}
+              </h3>
+
+              <div className="mb-5">
+                <span className="font-heading font-extrabold text-4xl text-white">
+                  {tier.price}
+                </span>
+                <span className="text-white/40 text-sm font-body ml-1">
+                  {tier.suffix}
+                </span>
               </div>
 
-              {/* Features */}
-              <ul className="space-y-3 mb-8 flex-1">
-                {plan.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-[#D4AF37] flex-shrink-0 mt-0.5" />
-                    <span className="font-body text-gray-700 text-sm">{feature}</span>
+              <ul className="space-y-3 mb-6 flex-grow">
+                {tier.features.map((feat, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-sm font-body text-white/70">
+                    <Check size={16} className="text-brand-gold mt-0.5 shrink-0" />
+                    <span>{feat}</span>
                   </li>
                 ))}
               </ul>
 
-              {/* CTA */}
               <a
                 href="#booking"
-                className={`block text-center rounded-lg py-3 font-heading font-semibold text-sm uppercase tracking-wide transition-all duration-200 ${
-                  plan.popular
-                    ? 'bg-[#D4AF37] hover:bg-[#B8941F] text-black'
-                    : 'bg-gray-900 hover:bg-gray-700 text-white'
+                className={`block text-center font-heading font-bold text-sm uppercase tracking-wider py-3 rounded-lg transition-all ${
+                  tier.popular
+                    ? 'btn-gold w-full'
+                    : 'border border-brand-gold/40 text-brand-gold hover:bg-brand-gold/10'
                 }`}
               >
-                {plan.cta}
+                Book Now
               </a>
             </div>
           ))}
         </div>
 
-        {/* More services note */}
-        <div className="text-center mt-10 space-y-2">
-          <p className="font-body text-gray-500 text-sm">
-            Also available: Window Tint from $100 · Black Diamond Package $350 · Custom Quotes for RVs, boats & fleets
-          </p>
-          <a href="#services" className="inline-block font-body text-sm text-[#B8941F] hover:text-[#D4AF37] transition-colors underline underline-offset-2">
-            View all services →
-          </a>
-        </div>
+        {/* Footer note */}
+        <p className="text-center text-white/40 text-sm font-body mt-10 max-w-2xl mx-auto">
+          Window Tint starting at $200 &middot; Sedans $200 &middot; SUVs $250 &middot; Windshield $100
+          <br />
+          Custom quotes available for RVs, boats &amp; fleet vehicles
+        </p>
       </div>
     </section>
   );
